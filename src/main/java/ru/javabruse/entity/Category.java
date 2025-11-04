@@ -1,0 +1,14 @@
+package ru.javabruse.entity;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+@Entity
+@Table(name = "categories")
+@Getter
+@Setter
+public class Category extends EntityAbstract {
+    @Column(nullable = false, unique = true)
+    private String name;
+}
