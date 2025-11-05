@@ -1,0 +1,60 @@
+package ru.javabruse.entities;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@Getter
+@Setter
+public class User extends EntityAbstract {
+
+    @Column(nullable = false)
+    @NotBlank(message = "Имя пользователя не может быть пустым")
+    @Size(max = 100, message = "Имя пользователя не может превышать 100 символов")
+    private String name;
+
+    @Column(nullable = false)
+    @NotBlank(message = "Email не может быть пустым")
+    @Email(message = "Email должен быть корректным адресом")
+    @Size(max = 255, message = "Email не может превышать 255 символов")
+    private String email;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @NotNull(message = "Роль пользователя обязательна")
+    private UserRole role;
+
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = true)
+    @JsonIgnore
+    private Profile profile;
+
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Enrollment> enrollments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Submission> submissions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<QuizSubmission> quizSubmissions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<CourseReview> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Notification> notifications = new ArrayList<>();
+}
