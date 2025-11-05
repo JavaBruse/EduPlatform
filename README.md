@@ -7,6 +7,26 @@
 - **Exceptions** - Обработка ошибок
 - **Resources** - Конфигурация и миграции БД
 
+#### Используемые переменные окружения:
+```shell
+# Настройки БД:
+DB_HOST=localhost           # Хост БД (по умолчанию: localhost)
+DB_PORT=5432               # Порт БД (по умолчанию: 5432)  
+DB_NAME=edu_db             # Имя БД (по умолчанию: edu_db)
+DB_USERNAME=postgres       # Пользователь БД (по умолчанию: postgres)
+DB_PASSWORD=password       # Пароль БД (по умолчанию: postgres)
+
+# Приложение:
+SERVER_PORT=80             # Порт приложения (по умолчанию: 80)
+SPRING_PROFILES_ACTIVE=dev # Активный профиль (по умолчанию: dev)
+
+# Логирование и отладка:
+SHOW_SQL=true              # Показывать SQL в логах (по умолчанию: true)
+HIBERNATE_SQL_LOGGING=true # Логирование Hibernate SQL (по умолчанию: true)
+DDL_AUTO=validate          # Стратегия DDL Hibernate (по умолчанию: validate)
+FLYWAY_ENABLED=true        # Включить миграции Flyway (по умолчанию: true)
+```
+
 ## Maven профили и команды для сборки
 
 ### Профили:
