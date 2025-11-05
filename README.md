@@ -1,6 +1,6 @@
 # EduPlatform - Система управления онлайн-обучением
 ### Архитектурные слои:
-- **Controllers** - REST API endpoints (валидация входящих данных)
+- **Controllers** - REST API endpoints
 - **Services** - Бизнес-логика приложения (транзакции)
 - **Repositories** - Доступ к данным (Spring Data JPA)
 - **Entities** - Модели данных (JPA сущности + валидация)
@@ -15,6 +15,7 @@
 - prod - для продакшена (PostgreSQL)
 - dev - для разработки (PostgreSQL)
 ### 1. Cборка:
+
 * ПРОДАКШН
     ```shell
     mvn clean install -P prod -DskipTests          # прод сборка без тестов
