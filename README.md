@@ -85,8 +85,12 @@ FLYWAY_ENABLED=true        # Включить миграции Flyway (по ум
 
 ### Результат тестов:
 ![img.png](img.png)
-### Развернуть ранее собранное приложение в Docker контейнере
-
+### Развернуть приложение в Docker контейнере
+#### Собираем
+```shell
+mvn clean install -P prod -DskipTests
+```
+#### Разворачиваем
 ```shell
 docker-compose up -d
 ```
