@@ -1,43 +1,49 @@
 # EduPlatform - Система управления онлайн-обучением
 ### Архитектурные слои:
-- **Controllers** - REST API endpoints
-- **Services** - Бизнес-логика приложения
+- **Controllers** - REST API endpoints (валидация входящих данных)
+- **Services** - Бизнес-логика приложения (транзакции)
 - **Repositories** - Доступ к данным (Spring Data JPA)
-- **Entities** - Модели данных (JPA сущности)
+- **Entities** - Модели данных (JPA сущности + валидация)
+- **Exceptions** - Обработка ошибок
 - **Resources** - Конфигурация и миграции БД
+
 ## Maven профили и команды для сборки
 
-### 1. Разработка:
+### Профили:
 
-```bash
-mvn clean install
-```
-
-### 2. Тестирование с H2:
-
-```bash
-mvn clean install -P test
-```
-
-### 3. Продакшен сборка:
-
-```bash
-mvn clean install -P prod
-```
-
-### 4. Интеграционные тесты:
-
-```bash
-mvn verify -P integration-test
-```
-
-### 5. Запуск с определенным профилем:
-
-```bash
-mvn spring-boot:run -Dspring-boot.run.profiles=dev
-```
-
-### 6.  Развернуть ранее собранное приложение в Docker контейнере
+- test - для тестов (H2 база)
+- prod - для продакшена (PostgreSQL)
+- dev - для разработки (PostgreSQL)
+### 1. Cборка:
+* ПРОДАКШН
+    ```shell
+    mvn clean install -P prod -DskipTests          # прод сборка без тестов
+    mvn clean install -P prod                      # прод сборка с тестами
+    ```
+* ТЕСТОВАЯ
+    ```shell
+    mvn clean install -P test -DskipTests          # тест сборка без тестов
+    mvn clean install -P test                      # тест сборка с тестами
+    ```
+* РАЗРАБОТКА
+    ```shell
+    mvn clean install -DskipTests                  # дефолтная сборка без тестов  
+    mvn clean install                              # дефолтная сборка с тестами
+    ```
+* ТОЛЬКО ТЕСТЫ
+    ```shell 
+    mvn test -P test          # unit + интеграционные тесты (test профиль)
+    mvn test                  # unit + интеграционные тесты (dev профиль)
+    ```
+* БЫСТРАЯ СБОРКА (полное отключение тестов)
+    ```shell
+    mvn clean install -P prod "-Dmaven.test.skip=true"  # для PowerShell
+    # или
+    mvn clean install -P prod -Dmaven.test.skip=true    # для Bash
+    ```
+### Результат тестов:
+![img.png](img.png)
+### Развернуть ранее собранное приложение в Docker контейнере
 
 ```shell
 docker-compose up -d
@@ -98,7 +104,7 @@ docker-compose up -d
 
 - `GET /api/lessons` - Получить все уроки
 - `GET /api/lessons/{id}` - Получить урок по ID
-- `GET /api/lessons/module/{moduleId}` - Получить уроки модуля
+- `GET /api/lessons/module/{moduleId}` - Получить уроки по модулю
 - `POST /api/lessons` - Создать урок
 - `PUT /api/lessons/{id}` - Обновить урок
 - `DELETE /api/lessons/{id}` - Удалить урок
@@ -107,9 +113,11 @@ docker-compose up -d
 
 - `GET /api/assignments` - Получить все задания
 - `GET /api/assignments/{id}` - Получить задание по ID
+- `GET /api/assignments/lesson/{lessonId}` - получить задания урока
 - `POST /api/assignments` - Создать задание
 - `PUT /api/assignments/{id}` - Обновить задание
 - `DELETE /api/assignments/{id}` - Удалить задание
+
 
 ### Отправки работ
 
@@ -177,7 +185,7 @@ EduPlatform/
 │ ├── main/
 │ │ ├── java/ru/javabruse/
 │ │ │ ├── controllers/ # REST контроллеры
-│ │ │ ├── entity/ # Сущности БД
+│ │ │ ├── entities/ # Сущности БД
 │ │ │ │ ├── EntityAbstract.java # Базовый класс сущностей
 │ │ │ │ ├── User.java # Пользователи
 │ │ │ │ ├── Course.java # Курсы
@@ -200,6 +208,8 @@ EduPlatform/
 │ │ │ │ └── UserRole.java # Роли пользователей
 │ │ │ ├── repositories/ # Репозитории Spring Data JPA
 │ │ │ └── services/ # Бизнес-логика
+│ │ │ └── exceptions/
+│ │ │   └── GlobalExceptionHandler.java
 │ │ └── resources/
 │ │ ├── application.yml # Основная конфигурация
 │ │ ├── application-dev.yml # Конфиг для разработки
@@ -207,11 +217,10 @@ EduPlatform/
 │ │ ├── application-test.yml # Конфиг для тестирования
 │ │ ├── .env.example # Шаблон переменных окружения
 │ │ └── db/migration/ # Миграции базы данных
-│ │ ├── V1__addSchema.sql
-│ │ └── V2__insert.sql
+│ │ ├── V1__addSchema.sql # Схема базы данных
+│ │ └── V2__insert.sql # Синтетические данные в базе данных
 │ └── test/
 │   └── java/ru/javabruse/ # Тесты
-├── target/ # Собранные артефакты
 ├── docker-compose.yml # Docker Compose для запуска
 ├── Dockerfile # Конфигурация Docker образа
 ├── pom.xml # Maven конфигурация
