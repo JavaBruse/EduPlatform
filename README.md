@@ -36,32 +36,45 @@ FLYWAY_ENABLED=true        # Включить миграции Flyway (по ум
 - dev - для разработки (PostgreSQL)
 ### 1. Cборка:
 
-* ПРОДАКШН
+- **ПРОДАКШН**
+  * Первая команда - сборка без тестов, вторая - с тестами*
+
     ```shell
-    mvn clean install -P prod -DskipTests          # прод сборка без тестов
-    mvn clean install -P prod                      # прод сборка с тестами
+    mvn clean install -P prod -DskipTests
+    mvn clean install -P prod
     ```
-* ТЕСТОВАЯ
+
+- **ТЕСТОВАЯ**
+  * Без тестов / с тестами (профиль test)*
     ```shell
-    mvn clean install -P test -DskipTests          # тест сборка без тестов
-    mvn clean install -P test                      # тест сборка с тестами
+    mvn clean install -P test -DskipTests
+    mvn clean install -P test
     ```
-* РАЗРАБОТКА
+- **РАЗРАБОТКА**
+  * Дефолтная сборка без тестов / с тестами*
+
     ```shell
-    mvn clean install -DskipTests                  # дефолтная сборка без тестов  
-    mvn clean install                              # дефолтная сборка с тестами
+    mvn clean install -DskipTests
+    mvn clean install
     ```
-* ТОЛЬКО ТЕСТЫ
-    ```shell 
-    mvn test -P test          # unit + интеграционные тесты (test профиль)
-    mvn test                  # unit + интеграционные тесты (dev профиль)
-    ```
-* БЫСТРАЯ СБОРКА (полное отключение тестов)
+- **ТОЛЬКО ТЕСТЫ**
+  * Только unit + интеграционные тесты (профиль test / dev)*
+
     ```shell
-    mvn clean install -P prod "-Dmaven.test.skip=true"  # для PowerShell
-    # или
-    mvn clean install -P prod -Dmaven.test.skip=true    # для Bash
+    mvn test -P test
+    mvn test
     ```
+- **БЫСТРАЯ СБОРКА**
+* Полное отключение тестов
+  * Для PowerShell:
+  ```shell
+  mvn clean install -P prod "-Dmaven.test.skip=true"
+  ```
+  * Для Bash:
+  ```shell
+  mvn clean install -P prod -Dmaven.test.skip=true
+  ```
+
 ### Результат тестов:
 ![img.png](img.png)
 ### Развернуть ранее собранное приложение в Docker контейнере
