@@ -41,6 +41,8 @@ FLYWAY_ENABLED=true        # Включить миграции Flyway (по ум
 
     ```shell
     mvn clean install -P prod -DskipTests
+    ```
+    ```shell
     mvn clean install -P prod
     ```
 
@@ -48,6 +50,8 @@ FLYWAY_ENABLED=true        # Включить миграции Flyway (по ум
   * Без тестов / с тестами (профиль test)*
     ```shell
     mvn clean install -P test -DskipTests
+    ```
+    ```shell
     mvn clean install -P test
     ```
 - **РАЗРАБОТКА**
@@ -55,6 +59,8 @@ FLYWAY_ENABLED=true        # Включить миграции Flyway (по ум
 
     ```shell
     mvn clean install -DskipTests
+    ```
+    ```shell
     mvn clean install
     ```
 - **ТОЛЬКО ТЕСТЫ**
@@ -62,6 +68,8 @@ FLYWAY_ENABLED=true        # Включить миграции Flyway (по ум
 
     ```shell
     mvn test -P test
+    ```
+    ```shell
     mvn test
     ```
 - **БЫСТРАЯ СБОРКА**
